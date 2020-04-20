@@ -1,17 +1,38 @@
 package com.educandoweb.course.entities;
 
+
+
 import java.io.Serializable;
+
 import java.util.HashSet;
+
 import java.util.Set;
 
+
+
 import javax.persistence.Entity;
+
 import javax.persistence.GeneratedValue;
+
 import javax.persistence.GenerationType;
+
 import javax.persistence.Id;
+
 import javax.persistence.JoinColumn;
+
 import javax.persistence.JoinTable;
+
 import javax.persistence.ManyToMany;
+
+import javax.persistence.OneToMany;
+
 import javax.persistence.Table;
+
+
+
+import com.fasterxml.jackson.annotation.JsonIgnore;
+
+
 
 @Entity
 
@@ -20,6 +41,8 @@ import javax.persistence.Table;
 public class Product implements Serializable {
 
 	private static final long serialVersionUID = 1L;
+
+
 
 	@Id
 
@@ -35,13 +58,27 @@ public class Product implements Serializable {
 
 	private String imgUrl;
 
+
+
 	@ManyToMany
+
 	@JoinTable(name = "tb_product_category", joinColumns = @JoinColumn(name = "product_id"), inverseJoinColumns = @JoinColumn(name = "category_id"))
+
 	private Set<Category> categories = new HashSet<>();
+
+
+
+	@OneToMany(mappedBy = "id.product")
+
+	private Set<OrderItem> items = new HashSet<>();
+
+	
 
 	public Product() {
 
 	}
+
+
 
 	public Product(Long id, String name, String description, Double price, String imgUrl) {
 
@@ -59,11 +96,15 @@ public class Product implements Serializable {
 
 	}
 
+
+
 	public Long getId() {
 
 		return id;
 
 	}
+
+
 
 	public void setId(Long id) {
 
@@ -71,11 +112,15 @@ public class Product implements Serializable {
 
 	}
 
+
+
 	public String getName() {
 
 		return name;
 
 	}
+
+
 
 	public void setName(String name) {
 
@@ -83,11 +128,15 @@ public class Product implements Serializable {
 
 	}
 
+
+
 	public String getDescription() {
 
 		return description;
 
 	}
+
+
 
 	public void setDescription(String description) {
 
@@ -95,11 +144,15 @@ public class Product implements Serializable {
 
 	}
 
+
+
 	public Double getPrice() {
 
 		return price;
 
 	}
+
+
 
 	public void setPrice(Double price) {
 
@@ -107,11 +160,15 @@ public class Product implements Serializable {
 
 	}
 
+
+
 	public String getImgUrl() {
 
 		return imgUrl;
 
 	}
+
+
 
 	public void setImgUrl(String imgUrl) {
 
@@ -119,11 +176,33 @@ public class Product implements Serializable {
 
 	}
 
+
+
 	public Set<Category> getCategories() {
 
 		return categories;
 
 	}
+
+
+
+	@JsonIgnore
+
+	public Set<Order> getOrders() {
+
+		Set<Order> set = new HashSet<>();
+
+		for (OrderItem x : items) {
+
+			set.add(x.getOrder());
+
+		}
+
+		return set;
+
+	}
+
+	
 
 	@Override
 
@@ -138,6 +217,8 @@ public class Product implements Serializable {
 		return result;
 
 	}
+
+
 
 	@Override
 
