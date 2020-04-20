@@ -1,6 +1,10 @@
 package com.educandoweb.course.entities;
 
+
+
 import java.io.Serializable;
+
+
 
 import javax.persistence.EmbeddedId;
 
@@ -8,7 +12,13 @@ import javax.persistence.Entity;
 
 import javax.persistence.Table;
 
+
+
 import com.educandoweb.course.entities.pk.OrderItemPK;
+
+import com.fasterxml.jackson.annotation.JsonIgnore;
+
+
 
 @Entity
 
@@ -18,17 +28,25 @@ public class OrderItem implements Serializable {
 
 	private static final long serialVersionUID = 1L;
 
+
+
 	@EmbeddedId
 
-	private OrderItemPK id;
+	private OrderItemPK id = new OrderItemPK();
+
+	
 
 	private Integer quantity;
 
 	private Double price;
 
+	
+
 	public OrderItem() {
 
 	}
+
+
 
 	public OrderItem(Order order, Product product, Integer quantity, Double price) {
 
@@ -44,11 +62,17 @@ public class OrderItem implements Serializable {
 
 	}
 
+
+
+	@JsonIgnore
+
 	public Order getOrder() {
 
 		return id.getOrder();
 
 	}
+
+	
 
 	public void setOrder(Order order) {
 
@@ -56,11 +80,15 @@ public class OrderItem implements Serializable {
 
 	}
 
+	
+
 	public Product getProduct() {
 
 		return id.getProduct();
 
 	}
+
+	
 
 	public void setProduct(Product product) {
 
@@ -68,11 +96,15 @@ public class OrderItem implements Serializable {
 
 	}
 
+	
+
 	public Integer getQuantity() {
 
 		return quantity;
 
 	}
+
+
 
 	public void setQuantity(Integer quantity) {
 
@@ -80,17 +112,23 @@ public class OrderItem implements Serializable {
 
 	}
 
+
+
 	public Double getPrice() {
 
 		return price;
 
 	}
 
+
+
 	public void setPrice(Double price) {
 
 		this.price = price;
 
 	}
+
+
 
 	@Override
 
@@ -105,6 +143,8 @@ public class OrderItem implements Serializable {
 		return result;
 
 	}
+
+
 
 	@Override
 
